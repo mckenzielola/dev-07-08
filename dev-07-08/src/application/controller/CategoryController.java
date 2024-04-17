@@ -34,15 +34,25 @@ public class CategoryController
 			Category cat = new Category(category);
 			
 			//call DAL class to store Category names to csv files
-			boolean result = DAL.addCategory(cat);
+			int result = DAL.addCategory(cat);
 			
-			//if the addCategory class returns false, Category name already exists
-			if(!result)
-			{
-				//display category already exists message
+			// check the result of addCategory
+			switch (result) {
+				case 0:
+				// if addCategory returns 0, display success message
+				result_message.setText("Category added successfully!");
+				break;
+
+				case 1:
+				// if addCategory returns 1, display category exists error
 				result_message.setText("Category " + category + " already exists!");
+				break;
+
+				case 2:
+				// if addCategory returns 2, display no commas error
+				result_message.setText("Commas (,) are not allowed in any field!");
+				break;
 			}
 		}
 	}
-
 }
