@@ -1,6 +1,6 @@
 # ItemVue: Asset Tracker Web Application 
 
-The Asset Tracker Web Application is a JavaFX-based solution designed to help users manage and track various assets. Whether 
+ItemVue is a JavaFX-based solution designed to help users manage and track various assets. Whether 
 you’re monitoring equipment, inventory, or any other valuable items, this application allows you to perform essential asset 
 management tasks seamlessly. Key features include:
 
