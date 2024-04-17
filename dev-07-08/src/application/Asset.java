@@ -1,6 +1,6 @@
 package application;
 
-public class CreateAsset 
+public class Asset 
 {
 	private String assetName;
 	private String purchaseDate, warrantyDate;
@@ -8,7 +8,7 @@ public class CreateAsset
 	private String purchaseVal;
 	private String category, location;
 	
-	public CreateAsset(String name, String purDate, String expDate, String descr, 
+	public Asset(String name, String purDate, String expDate, String descr, 
 			String cost, String cat, String loc)
 	{
 		this.assetName = name;

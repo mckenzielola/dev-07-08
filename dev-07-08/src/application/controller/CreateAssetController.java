@@ -2,7 +2,7 @@ package application.controller;
 
 import application.Category;
 import application.Location;
-import application.CreateAsset;
+import application.Asset;
 
 import java.util.HashMap;
 import java.util.List;
