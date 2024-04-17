@@ -34,6 +34,7 @@ public class CreateAssetController {
 	public void initialize()
 	{
 		DAL.storeCategoriesFromFile();
+		DAL.storeLocationsFromFile();
 		
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
