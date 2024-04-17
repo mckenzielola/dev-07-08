@@ -106,6 +106,109 @@ public class DataAccessLayer {
         }
     }
     
+    //reads and stores the Categories from the csv file into HashMap
+    public void storeCategoriesFromFile()
+    {
+    	//create a temp HashMap so that the current HashMap does not get overwritten
+    	HashMap<String, Category> tempMap = new HashMap<>();
+
+    	//use try-catch block to check if the file path being passed exists,
+    	//to catch any IoExceptions
+        try 
+        {
+        	//instantiate BufferReader object and FileReader to read the category.csv file line by line
+        	BufferedReader br = new BufferedReader(new FileReader(categoryFilePath));
+        	
+        	//declare string value to hold the line data
+            String line;
+            
+            //declare local variable for lineCounter that will skip first line in csv
+            int lineCounter = 0;
+            
+            //while loop runs until the current line is empty, no more lines to read
+            while ((line = br.readLine()) != null) 
+            {
+            	//if the lineCounter, title is being read, skip
+                if (lineCounter == 0) 
+                {
+                	lineCounter++;
+                    continue;    
+                }
+                else
+                {
+                	String[] data = line.split(",");
+                
+                	if (data.length > 0)
+                	{
+                		String categoryName = data[0].trim();
+                		tempMap.put(categoryName, new Category(categoryName));
+                	}
+                }
+            }
+            br.close();
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+  
+        }
+
+        //store populated hashmap into class hashmap
+        categoriesMap = tempMap; 
+    }
+    
+  //reads and stores the Location from the csv file into HashMap
+    public void storeLocationsFromFile()
+    {
+    	//create a temp HashMap so that the current HashMap does not get overwritten
+    	HashMap<String, Location> tempMap = new HashMap<>();
+
+    	//use try-catch block to check if the file path being passed exists,
+    	//to catch any IoExceptions
+        try 
+        {
+        	//instantiate BufferReader object and FileReader to read the category.csv file line by line
+        	BufferedReader br = new BufferedReader(new FileReader(locationFilePath));
+        	
+        	//declare string value to hold the line data
+            String line;
+            
+            //declare local variable for lineCounter that will skip first line in csv
+            int lineCounter = 0;
+            
+            //while loop runs until the current line is empty, no more lines to read
+            while ((line = br.readLine()) != null) 
+            {
+            	//if the lineCounter, title is being read, skip
+                if (lineCounter == 0) 
+                {
+                	lineCounter++;
+                    continue;    
+                }
+                else
+                {
+                	String[] data = line.split(",");
+                
+                	if (data.length >= 2)
+                	{
+                		String locationName = data[0];
+                		String locDescr = data[1];
+                		tempMap.put(locationName, new Location(locationName, locDescr));
+                	}
+                }
+            }
+            br.close();
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+  
+        }
+
+        //store populated hashmap into class location hashmap
+        locationsMap = tempMap; 
+    }
+    
     //returns the HashMap for the Location data
     public HashMap<String, Location> getLocationsMap() {
         return locationsMap;
