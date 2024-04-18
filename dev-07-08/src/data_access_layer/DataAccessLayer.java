@@ -270,7 +270,54 @@ public class DataAccessLayer {
    }
     
     public void storeAssetsFromFile() {
-        // need to implement storing of assets into DAL from file
+        //create a temp HashMap so that the current HashMap does not get overwritten
+    	HashMap<String, Asset> tempMap = new HashMap<>();
+
+    	//use try-catch block to check if the file path being passed exists,
+    	//to catch any IoExceptions
+        try 
+        {
+        	//instantiate BufferReader object and FileReader to read the asset.csv file line by line
+        	BufferedReader br = new BufferedReader(new FileReader(assetFilePath));
+        	
+        	//declare string value to hold the line data
+            String line;
+            
+            //declare local variable for lineCounter that will skip first line in csv
+            int lineCounter = 0;
+            
+            //while loop runs until the current line is empty, no more lines to read
+            while ((line = br.readLine()) != null) 
+            {
+            	//if the lineCounter, title is being read, skip
+                if (lineCounter == 0) 
+                {
+                	lineCounter++;
+                    continue;    
+                }
+                else
+                {
+                	String[] data = line.split(",");
+                
+                	if (data.length >= 7) {
+                        for (String item : data) {
+                            if (item.equals("_EMPTY_")) {
+                                item = "";
+                            }
+                        }
+                		tempMap.put(data[0], new Asset(data[0], data[1], data[2], data[3], data[4], data[5], data[6]));
+                	}
+                }
+            }
+            br.close();
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+
+        //store populated hashmap into class location hashmap
+        assetsMap = tempMap; 
     }
     
     public void storeAssetsToFile() {
