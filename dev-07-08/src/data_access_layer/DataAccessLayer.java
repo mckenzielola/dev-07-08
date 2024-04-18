@@ -5,15 +5,18 @@ import java.util.HashMap;
 
 import application.Category;
 import application.Location;
+import application.Asset;
 
 public class DataAccessLayer {
 	
 	//class members
     private String locationFilePath;
     private String categoryFilePath;
+    private String assetFilePath;
     //create HashMaps for each object
     private HashMap<String, Location> locationsMap;
     private HashMap<String, Category> categoriesMap;
+    private HashMap<String, Asset> assetsMap;
     
     //DAL constructor
     public DataAccessLayer()
@@ -21,52 +24,73 @@ public class DataAccessLayer {
     	//store the names of each objects file path
     	locationFilePath = "resources/csv/locations.csv";
     	categoryFilePath = "resources/csv/categories.csv";
+    	assetFilePath = "resources/csv/assets.csv";
     	//instantiate the HashMaps for Location and Category
     	locationsMap = new HashMap<>();
     	categoriesMap = new HashMap<>();
+    	assetsMap = new HashMap<>();
     }
     
     //addLocation method adds the Location object to its respective HashMap,
     //stores the attributes of the Location into its corresponding csv file 
     //using the appendToFile function, 
     //returns false if Location already exists and true if otherwise
-    public boolean addLocation(Location location){
+    public int addLocation(Location location){
     	
     	//checks if the following Location object already exists by checking
     	//if the location name is stored as a key
         if(locationsMap.containsKey(location.getLocationName())) {
         	//returns false, if the location already exists in the HashMap
-            return false;
+            return 1;
         }
         //if here, Location is new
+
+        // initialize the string to store in file
+        String dataline = location.getLocationName() + "," + location.getLocationDescr();
         
+        //check if the data contains additional commas
+        long count = dataline.chars().filter(ch -> ch == ',').count();
+        if (count != 1) {
+            return 2;
+        }
+        //if here, no commas are in the data
+
         //store the location name as the key, and the Location parameter as
         //the value in the HashMap
         locationsMap.put(location.getLocationName(), location);
-        
+
         //call the appendToFile function to store location name 
         //and description into  passed file path, using a comma as
         //a delimiter to separate name and description
-        appendToFile(locationFilePath, location.getLocationName()
-        		+ "," + location.getLocationDescr());
+        appendToFile(locationFilePath, dataline);
 
         //returns true if the location is added to the HashMap and the 
         //location info is stored in the csv file
-        return true;
+        return 0;
     }
     
     //addCategory method adds the Category object to its respective HashMap,
     //stores the attributes of the Category into its corresponding csv file 
     //using the appendToFile function, 
     //returns false if Category already exists and true if otherwise
-    public boolean addCategory(Category category) {
+    public int addCategory(Category category) {
     	
     	//checks if the following Category object already exists by checking
     	//if the category name is stored as a key
         if(categoriesMap.containsKey(category.getCategoryName())) {
-            return false;
+            return 1;
         }
         //if here, Category is new
+
+        // initialize the string to store in file
+        String dataline = category.getCategoryName();
+        
+        //check if the data contains additional commas
+        long count = dataline.chars().filter(ch -> ch == ',').count();
+        if (count != 0) {
+            return 2;
+        }
+        //if here, no commas are in the data
         
         //store the category name as the key, and the Category parameter as
         //the value in the HashMap
@@ -74,11 +98,11 @@ public class DataAccessLayer {
         
         //call the appendToFile function to store category name 
         //and description into  passed file path
-        appendToFile(categoryFilePath, category.getCategoryName());
+        appendToFile(categoryFilePath, dataline);
         
         //returns true if the Category is added to the HashMap and the 
         //Category name is stored in the csv file
-        return true;
+        return 0;
     }
     
     //write the content of the Category and Location objects into the csv
@@ -193,20 +217,111 @@ public class DataAccessLayer {
                 	{
                 		String locationName = data[0];
                 		String locDescr = data[1];
+                        if (locDescr.equals("_EMPTY_")) {
+                            locDescr = "";
+                        }
                 		tempMap.put(locationName, new Location(locationName, locDescr));
                 	}
                 }
             }
             br.close();
-        } 
+        }
         catch (IOException e) 
         {
             e.printStackTrace();
-  
         }
 
         //store populated hashmap into class location hashmap
         locationsMap = tempMap; 
+    }
+    
+   public int addAsset(Asset asset) {
+   	//checks if the following Asset object already exists by checking
+   	//if the asset name is stored as a key
+       if(assetsMap.containsKey(asset.getAssetName())) {
+       	//returns false, if the asset already exists in the HashMap
+           return 1;
+       }
+       //if here, Asset is new
+
+       // initialize the string to store in file
+       String dataline = asset.getAssetName()
+       + "," + asset.getCategory() + "," + asset.getLocation() + "," + asset.getPurchDate() + "," + asset.getDescription() + "," + asset.getPurchVal() + "," + asset.getExpDate();
+        
+       //check if the data contains additional commas
+       long count = dataline.chars().filter(ch -> ch == ',').count();
+       if (count != 6) {
+           return 2;
+       }
+       //if here, no commas are in the data
+       
+       //store the asset name as the key, and the Asset parameter as
+       //the value in the HashMap
+       assetsMap.put(asset.getAssetName(), asset);
+       
+       //call the appendToFile function to store asset name
+       //and description into  passed file path, using a comma as
+       //a delimiter to separate name and description
+       appendToFile(assetFilePath, dataline);
+
+       //returns true if the asset is added to the HashMap and the 
+       //asset info is stored in the csv file
+       return 0;
+   }
+    
+    public void storeAssetsFromFile() {
+        //create a temp HashMap so that the current HashMap does not get overwritten
+    	HashMap<String, Asset> tempMap = new HashMap<>();
+
+    	//use try-catch block to check if the file path being passed exists,
+    	//to catch any IoExceptions
+        try 
+        {
+        	//instantiate BufferReader object and FileReader to read the asset.csv file line by line
+        	BufferedReader br = new BufferedReader(new FileReader(assetFilePath));
+        	
+        	//declare string value to hold the line data
+            String line;
+            
+            //declare local variable for lineCounter that will skip first line in csv
+            int lineCounter = 0;
+            
+            //while loop runs until the current line is empty, no more lines to read
+            while ((line = br.readLine()) != null) 
+            {
+            	//if the lineCounter, title is being read, skip
+                if (lineCounter == 0) 
+                {
+                	lineCounter++;
+                    continue;    
+                }
+                else
+                {
+                	String[] data = line.split(",");
+                
+                	if (data.length >= 7) {
+                        for (String item : data) {
+                            if (item.equals("_EMPTY_")) {
+                                item = "";
+                            }
+                        }
+                		tempMap.put(data[0], new Asset(data[0], data[1], data[2], data[3], data[4], data[5], data[6]));
+                	}
+                }
+            }
+            br.close();
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+
+        //store populated hashmap into class location hashmap
+        assetsMap = tempMap; 
+    }
+    
+    public void storeAssetsToFile() {
+    	// need to implement storing of assets into file from DAL after editing or deleting assets
     }
     
     //returns the HashMap for the Location data

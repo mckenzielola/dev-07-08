@@ -35,6 +35,7 @@ public class CreateAssetController {
 	{
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
+		DAL.storeAssetsFromFile();
 		
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
@@ -47,35 +48,93 @@ public class CreateAssetController {
 		
 		categoryType.getItems().addAll(categoryNames);
 		locationType.getItems().addAll(locationNames);
-		//selectedCategory = categoryType.getValue();
 	}
 
 	@FXML public void saveAssetOp() 
 	{	
 		//get text 
-		String asset = asset_name.getText();
-		String purchdate = purchase_date.toString();
-		String expdate = warranty_date.toString();
-		String descr = asset_descr.getText();
+		String assetName = asset_name.getText();
+		String category = "_EMPTY_";
+		String location = "_EMPTY_";
+		String purchdate = "_EMPTY_";
+		String descr = "_EMPTY_";
+		String purchval = "_EMPTY_";
+		String expdate = "_EMPTY_";
+
+		// if user filled out category
+		if (categoryType.getValue() != null) {
+			// set category to the value of the category
+			category = categoryType.getValue();
+		}
+		// if user filled out location
+		if (locationType.getValue() != null) {
+			// set location to the value of the location
+			location = locationType.getValue();
+		}
+		// if user filled out purchase date
+		if (purchase_date.getValue() != null) {
+			// set purchase date to the value of the purchase date
+			purchdate = purchase_date.getValue().toString();
+		}
+		// if user filled out description
+		if (!asset_descr.getText().equals("")) {
+			// set description to the value of the description
+			descr = asset_descr.getText();
+		}
+		// if user filled out cost
+		if (!cost.getText().equals("")) {
+			// set purchase value to the value of the cost
+			purchval = cost.getText();
+		}
+		// if user filled out warranty date
+		if (warranty_date.getValue() != null) {
+			// set warranty date to the value of the warranty date
+			expdate = warranty_date.getValue().toString();
+		}
 		
-		
-				
 		//check if the asset name field is left blank
-		if(asset.length() == 0)
+		if (assetName.length() == 0)
 		{
 			//display error message for blank category name
 			result_message.setText("Asset name can not be blank!");
 		}
-	
+		//check if the category name field is left blank
+		else if (category.equals("_EMPTY_"))
+		{
+			//display error message for blank category name
+			result_message.setText("Category can not be blank!");
+		}
+		//check if the location name field is left blank
+		else if (location.equals("_EMPTY_"))
+		{
+			//display error message for blank location name
+			result_message.setText("Location can not be blank!");
+		}
 		else
 		{
-			//display message for category being added
-			result_message.setText("Asset added successfully!");
-					
-			//instantiate CreateAsset object and store name
-			//CreateAsset Casset = new CreateAsset(asset, purchdate, expdate, descr,  );
-					
-		
+			//create asset object and store name
+			Asset newAsset = new Asset(assetName, category, location, purchdate, descr, purchval, expdate);
+			
+			//called addAsset function using location object and DAL object
+			int result = DAL.addAsset(newAsset);
+			
+			// check the result of addAsset
+			switch (result) {
+				case 0:
+				// if addAsset returns 0, display success message
+				result_message.setText("Asset added successfully!");
+				break;
+
+				case 1:
+				// if addAsset returns 1, display asset exists error
+				result_message.setText("Asset " + assetName + " already exists!");
+				break;
+
+				case 2:
+				// if addAsset returns 2, display no commas error
+				result_message.setText("Commas (,) are not allowed in any field!");
+				break;
+			}
 		}
 	}
 

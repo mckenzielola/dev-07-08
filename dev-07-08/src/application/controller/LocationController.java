@@ -21,7 +21,12 @@ public class LocationController {
 	{	
 		//get text
 		String location = location_name.getText();
-		String description = location_description.getText();
+		String description = "_EMPTY_";
+		
+		if (!location_description.getText().equals(""))
+		{
+			description = location_description.getText();
+		}
 		
 		//check if the location name field is left blank or not
 		if(location.length() == 0)
@@ -30,21 +35,30 @@ public class LocationController {
 			result_message.setText("Location can not be blank!");
 		}
 		//if field is filled correctly
-		else 
+		else
 		{
-			//display added Location successfully message
-			result_message.setText("Location added successfully!");
-			
 			//create location object and store name
 			Location loc = new Location(location, description);
 			
 			//called addLocation function using location object and DAL object
-			boolean result = DAL.addLocation(loc);
+			int result = DAL.addLocation(loc);
 			
-			//if addLocation returns false, display location exists message
-			if(!result) 
-			{
+			// check the result of addLocation
+			switch (result) {
+				case 0:
+				// if addLocation returns 0, display success message
+				result_message.setText("Location added successfully!");
+				break;
+
+				case 1:
+				// if addLocation returns 1, display location exists error
 				result_message.setText("Location " + location + " already exists!");
+				break;
+
+				case 2:
+				// if addLocation returns 2, display no commas error
+				result_message.setText("Commas (,) are not allowed in any field!");
+				break;
 			}
 		}
 	}

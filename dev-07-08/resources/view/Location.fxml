@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LocationController">
    <children>
@@ -13,7 +15,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="20.0" layoutY="150.0" prefHeight="27.0" prefWidth="200.0" text="Location Name" />
+      <Label layoutX="20.0" layoutY="150.0" prefHeight="27.0" prefWidth="200.0" text="Location Name (Required)" />
       <Line endX="250.0" layoutX="120.0" layoutY="60.0" startX="-100.0" />
       <TextField fx:id="location_name" layoutX="20.0" layoutY="177.0" prefHeight="31.0" prefWidth="351.0" />
       <Label fx:id="result_message" layoutX="20.0" layoutY="317.0" prefHeight="27.0" prefWidth="351.0" />
