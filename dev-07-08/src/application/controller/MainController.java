@@ -91,7 +91,7 @@ public class MainController {
 	}
 
 	@FXML public void showManageAssetOp() {
-		URL url = getClass().getClassLoader().getResource("view/ManageAsset.fxml");
+		URL url = getClass().getClassLoader().getResource("view/SearchAsset.fxml");
 		
 		try {
 			AnchorPane pane2 = (AnchorPane) FXMLLoader.load(url);
