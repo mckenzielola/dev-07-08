@@ -320,6 +320,16 @@ public class DataAccessLayer {
         assetsMap = tempMap; 
     }
     
+    public String searchAsset(String keyword) {
+        for (String key : assetsMap.keySet()) {
+            System.out.println(key);
+            if (key.contains(keyword)) {
+                return key;
+            }
+        }
+        return "";
+    }
+
     public void storeAssetsToFile() {
     	// need to implement storing of assets into file from DAL after editing or deleting assets
     }
