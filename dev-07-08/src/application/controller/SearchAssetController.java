@@ -68,7 +68,7 @@ public class SearchAssetController
 
 	@FXML public void searchAssetOp() 
 	{	
-		results = DAL.searchAsset(search_term.getText());
+		results = DAL.searchAsset(search_term.getText().toLowerCase());
 		resultsCount = results.size();
 		if (search_term.getText().length() == 0)
 		{
