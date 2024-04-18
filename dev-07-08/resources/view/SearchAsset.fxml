@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -15,13 +16,50 @@
 	      </font>
 	   </Label>
 	   <Line endX="250.0" layoutX="120.0" layoutY="60.0" startX="-100.0" />
-	   <Label layoutX="20.0" layoutY="150.0" prefHeight="27.0" prefWidth="200.0" text="Search Term (Asset Name)" />
-	   <TextField fx:id="search_term" layoutX="20.0" layoutY="177.0" prefHeight="31.0" prefWidth="351.0" />
-	   <Button layoutX="150.0" layoutY="243.0" mnemonicParsing="false" onAction="#searchAssetOp" prefHeight="10.0" prefWidth="100.0" style="-fx-background-color: teal;" text="Search" textFill="WHITE">
+	   <Label layoutX="20.0" layoutY="76.0" prefHeight="27.0" prefWidth="200.0" text="Keyword (Asset Name)" />
+	   <TextField fx:id="search_term" layoutX="20.0" layoutY="103.0" prefHeight="31.0" prefWidth="247.0" />
+	   <Button layoutX="270.0" layoutY="103.0" mnemonicParsing="false" onAction="#searchAssetOp" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: teal;" text="Search" textFill="WHITE">
 	      <font>
 	         <Font size="13.0" />
 	      </font>
 	   </Button>
-	   <Label fx:id="result_message" layoutX="20.0" layoutY="208.0" prefHeight="27.0" prefWidth="351.0" />
+	   <Label fx:id="result_message" layoutX="20.0" layoutY="134.0" prefHeight="27.0" prefWidth="247.0" text="Please type in a keyword." />
+      <Label layoutX="20.0" layoutY="170.0" prefHeight="37.0" prefWidth="301.0" text="Results">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Line endX="250.0" layoutX="120.0" layoutY="210.0" startX="-100.0" />
+      <Button fx:id="prev_button" alignment="CENTER" layoutX="153.0" layoutY="344.0" mnemonicParsing="false" onAction="#prevAssetOp" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: teal;" text="&lt;-" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label fx:id="result_number" alignment="CENTER" layoutX="185.0" layoutY="344.0" prefHeight="32.0" prefWidth="32.0" text="1" textAlignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Button fx:id="next_button" alignment="CENTER" layoutX="217.0" layoutY="344.0" mnemonicParsing="false" onAction="#nextAssetOp" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: teal;" text="-&gt;" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="217.0" prefHeight="27.0" prefWidth="65.0" text="Asset: " />
+      <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="271.0" prefHeight="27.0" prefWidth="65.0" text="Location: " />
+      <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="244.0" prefHeight="27.0" prefWidth="65.0" text="Category: " />
+      <Button fx:id="edit_button" layoutX="107.0" layoutY="302.0" mnemonicParsing="false" onAction="#editAssetOp" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: teal;" text="Edit" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="delete_button" layoutX="203.0" layoutY="302.0" mnemonicParsing="false" onAction="#deleteAssetOp" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label fx:id="asset_name" layoutX="86.0" layoutY="217.0" prefHeight="27.0" prefWidth="284.0" />
+      <Label fx:id="asset_category" layoutX="86.0" layoutY="244.0" prefHeight="27.0" prefWidth="284.0" />
+      <Label fx:id="asset_location" layoutX="86.0" layoutY="271.0" prefHeight="27.0" prefWidth="284.0" />
    </children>      
 </AnchorPane>

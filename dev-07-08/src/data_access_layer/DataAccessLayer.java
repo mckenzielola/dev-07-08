@@ -1,7 +1,9 @@
 package data_access_layer;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import application.Category;
 import application.Location;
@@ -320,14 +322,14 @@ public class DataAccessLayer {
         assetsMap = tempMap; 
     }
     
-    public String searchAsset(String keyword) {
+    public ArrayList<Asset> searchAsset(String keyword) {
+        ArrayList<Asset> results = new ArrayList<>();
         for (String key : assetsMap.keySet()) {
-            System.out.println(key);
-            if (key.contains(keyword)) {
-                return key;
+            if (key.toLowerCase().contains(keyword)) {
+                results.add(assetsMap.get(key));
             }
         }
-        return "";
+        return results;
     }
 
     public void storeAssetsToFile() {
@@ -344,4 +346,8 @@ public class DataAccessLayer {
         return categoriesMap;
     }
    
+    //returns the HashMap for the Asset data
+    public HashMap<String, Asset> getAssetsMap() {
+        return assetsMap;
+    }
 }
