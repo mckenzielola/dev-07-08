@@ -136,6 +136,7 @@ public class EditAssetController
 			//create asset object and store name
 			Asset newAsset = new Asset(assetName, category, location, purchdate, descr, purchval, expdate);
 					
+
 			//call editAssetData to delete the pre-existing Asset and add the newAsset
 			int result = DAL.editAssetData(preAsset, newAsset);
 			

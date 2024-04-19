@@ -1,7 +1,7 @@
 package data_access_layer;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -340,6 +340,7 @@ public class DataAccessLayer {
     }
 
     
+
     public int editAssetData(Asset preAsset, Asset newAsset)
     {
     	deleteAssetData(preAsset);
@@ -383,14 +384,10 @@ public class DataAccessLayer {
         	}
         	//close file writers
     		bw.close();
-    	}
-    	catch(IOException e)
-    	{
-    		e.printStackTrace();
-    	}
-    	
+
     }
     
+
     //returns the HashMap for the Location data
     public HashMap<String, Location> getLocationsMap() {
         return locationsMap;
