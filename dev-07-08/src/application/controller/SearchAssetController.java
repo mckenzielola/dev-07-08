@@ -139,7 +139,6 @@ public class SearchAssetController
 		catch (IOException e) {
 		    e.printStackTrace();
 		}
-
 	}
 
 	@FXML public void deleteAssetOp() 

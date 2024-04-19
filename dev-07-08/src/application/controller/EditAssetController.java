@@ -40,16 +40,17 @@ public class EditAssetController
 		
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
+
 		HashMap<String, Asset> assetsMap = DAL.getAssetsMap();
 		
 		List<String> categoryNames = new ArrayList<>(categoriesMap.keySet());
 		List<String> locationNames = new ArrayList<>(locationsMap.keySet());
-	
 		
 		categoryType.getItems().addAll(categoryNames);
 		locationType.getItems().addAll(locationNames);
 	}
 	
+
 	public void saveAssetObject(Asset asset)
 	{
 		//Prompt all established Asset values 
@@ -61,12 +62,11 @@ public class EditAssetController
 		asset_name.setPromptText(asset.getAssetName());
 		cost.setPromptText(asset.getPurchVal());
 		
-		
-		
 	}
 	
 	@FXML public void saveAssetOp()
 	{
+
 		//get text 
 		String assetName = asset_name.getText();
 		String category = "_EMPTY_";
@@ -133,7 +133,6 @@ public class EditAssetController
 					
 			
 		}
-			
 		
 	}
 
