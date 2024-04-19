@@ -382,8 +382,14 @@ public class DataAccessLayer {
         		bw.newLine();
         		
         	}
+        	
         	//close file writers
     		bw.close();
+    	}catch(IOException e)
+    	{
+    		e.printStackTrace();
+    	}
+    
 
     }
     
