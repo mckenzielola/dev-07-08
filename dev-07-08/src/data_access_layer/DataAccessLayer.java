@@ -23,8 +23,8 @@ public class DataAccessLayer {
     private HashMap<String, Location> locationsMap;
     private HashMap<String, Category> categoriesMap;
     private HashMap<String, Asset> assetsMap;
-    //create a flag to skip the first line of the csv file
-	private boolean firstline;
+    
+	
     
     //DAL constructor
     public DataAccessLayer()
@@ -37,7 +37,7 @@ public class DataAccessLayer {
     	locationsMap = new HashMap<>();
     	categoriesMap = new HashMap<>();
     	assetsMap = new HashMap<>();
-    	firstline = true;
+    
     }
     
     //addLocation method adds the Location object to its respective HashMap,
@@ -255,7 +255,8 @@ public class DataAccessLayer {
 
        // initialize the string to store in file
        String dataline = asset.getAssetName()
-       + "," + asset.getCategory() + "," + asset.getLocation() + "," + asset.getPurchDate() + "," + asset.getDescription() + "," + asset.getPurchVal() + "," + asset.getExpDate();
+       + "," + asset.getCategory() + "," + asset.getLocation() + "," + asset.getPurchDate() + "," + asset.getDescription() + "," 
+    		   + asset.getPurchVal() + "," + asset.getExpDate();
         
        //check if the data contains additional commas
        long count = dataline.chars().filter(ch -> ch == ',').count();
@@ -292,6 +293,7 @@ public class DataAccessLayer {
         	//declare string value to hold the line data
             String line;
             
+            
             //declare local variable for lineCounter that will skip first line in csv
             int lineCounter = 0;
             
@@ -303,30 +305,39 @@ public class DataAccessLayer {
                 {
                 	lineCounter++;
                     continue;    
+                    
                 }
                 else
                 {
+                	//System.out.println(line);
                 	String[] data = line.split(",");
-                
-                	if (data.length >= 7) {
-                        for (String item : data) {
+               
+                	if (data.length >= 7) 
+                	{
+                        for (String item : data) 
+                        {
                             if (item.equals("_EMPTY_")) {
                                 item = "";
                             }
+                            
                         }
+                      
                 		tempMap.put(data[0], new Asset(data[0], data[1], data[2], data[3], data[4], data[5], data[6]));
                 	}
                 }
             }
             br.close();
+          //store populated hashmap into class location hashmap
+            assetsMap = tempMap; 
+            
         }
         catch (IOException e) 
         {
             e.printStackTrace();
         }
 
-        //store populated hashmap into class location hashmap
-        assetsMap = tempMap; 
+        
+
     }
     
     public ArrayList<Asset> searchAsset(String keyword) {
@@ -366,21 +377,28 @@ public class DataAccessLayer {
     		//instantiate BufferWriter object and FileWriter to read the asset.csv file line by line
         	BufferedWriter bw = new BufferedWriter(new FileWriter(assetFilePath));
         	
+        	//create a flag to skip the first line of the csv file
+        	boolean firstline = true;
+        	
+        	//flag caught, write titles
+    		if(firstline)
+    		{
+    			//filewriter writes titles of asset's attributes
+    			bw.write("Asset Name,Category,Location,Purchase Date,"
+    					+ "Description,Purchase Value,Warranty Expiration Date");
+    			bw.newLine();
+    			//assign firstline to false
+    			firstline = false;
+    			
+    		}
+    		
         	//enhanced for loop to iterate through HashMap with removed assets
         	for(Map.Entry<String, Asset> Emap : assetsMap.entrySet())
         	{
-        		//flag caught, skip first line
-        		if(firstline)
-        		{
-        			//assign firstline to false
-        			firstline = false;
-        			continue;
-        		}
-        		
         		//write to the file with new asset values
         		bw.write(Emap.getKey() + "," + Emap.getValue().getCategory()+ "," + Emap.getValue().getLocation()+ ","
-        				+ Emap.getValue().getPurchDate()+ "," + Emap.getValue().getDescription() + "," + Emap.getValue().getPurchVal()
-        				+ Emap.getValue().getExpDate());
+        				+ Emap.getValue().getPurchDate()+ "," + Emap.getValue().getDescription() + "," + Emap.getValue().getPurchVal() 
+        				+ "," + Emap.getValue().getExpDate());
         		//go to new line
         		bw.newLine();
         		
@@ -393,7 +411,6 @@ public class DataAccessLayer {
     	{
     		e.printStackTrace();
     	}
-    
 
     }
     

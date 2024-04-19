@@ -6,6 +6,7 @@ import application.Asset;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 
 import application.CommonObjs;
@@ -36,14 +37,14 @@ public class EditAssetController
 	
 	public void initialize()
 	{
+		DAL.storeAssetsFromFile();
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
-		DAL.storeAssetsFromFile();
+		
 		
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
 
-		HashMap<String, Asset> assetsMap = DAL.getAssetsMap();
 		
 		List<String> categoryNames = new ArrayList<>(categoriesMap.keySet());
 		List<String> locationNames = new ArrayList<>(locationsMap.keySet());
@@ -73,6 +74,13 @@ public class EditAssetController
 	
 	@FXML public void saveAssetOp()
 	{
+
+		HashMap<String, Asset> assetsMap = DAL.getAssetsMap();
+		
+		for(Map.Entry<String, Asset> Emap : assetsMap.entrySet())
+		{
+			System.out.print(Emap.getKey() + " ");
+		}
 
 		//get text 
 		String assetName = asset_name.getText();
@@ -159,9 +167,7 @@ public class EditAssetController
 					break;
 			}
 					
-			
 		}
-		
 	}
 
 }

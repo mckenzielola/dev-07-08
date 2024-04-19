@@ -4,6 +4,7 @@ import application.Asset;
 import application.Category;
 import application.controller.EditAssetController;
 import java.util.HashMap;
+import java.util.Map;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,7 +43,9 @@ public class SearchAssetController
 	private int currentAssetIndex;
 
 	public void initialize() {
+		
 		DAL.storeAssetsFromFile();
+
 		edit_button.setDisable(true);
 		delete_button.setDisable(true);
 		prev_button.setDisable(true);
@@ -50,7 +53,6 @@ public class SearchAssetController
 		
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
-		DAL.storeAssetsFromFile();
 		
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
@@ -151,10 +153,9 @@ public class SearchAssetController
 		}
 	}
 
+	//triggered when user presses delete
 	@FXML public void deleteAssetOp() 
 	{
-		// need to implement deletion of asset
-		// can use currentAsset to get asset's data
 		//save the current Asset object into currentAsset
 		currentAsset = results.get(currentAssetIndex);
 	
