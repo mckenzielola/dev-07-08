@@ -29,7 +29,9 @@ public class EditAssetController
 	@FXML private TextArea asset_descr;
 	@FXML private Label result_message;
 	private DataAccessLayer DAL = new DataAccessLayer();
-	//private String selectedCategory;
+	//create pre-existing Asset
+	private Asset preAsset;
+	
 	
 	
 	public void initialize()
@@ -48,11 +50,16 @@ public class EditAssetController
 		
 		categoryType.getItems().addAll(categoryNames);
 		locationType.getItems().addAll(locationNames);
+		
+		
+		
 	}
 	
 
 	public void saveAssetObject(Asset asset)
 	{
+		//initialize pre-existing Asset
+		preAsset = asset;
 		//Prompt all established Asset values 
 		categoryType.setPromptText(asset.getCategory());
 		locationType.setPromptText(asset.getLocation());
@@ -129,7 +136,27 @@ public class EditAssetController
 			//create asset object and store name
 			Asset newAsset = new Asset(assetName, category, location, purchdate, descr, purchval, expdate);
 					
-			DAL.editAssetData(newAsset);
+			//call editAssetData to delete the pre-existing Asset and add the newAsset
+			int result = DAL.editAssetData(preAsset, newAsset);
+			
+			// check the result of addAsset
+			switch (result) 
+			{
+				case 0:
+					// if addAsset returns 0, display success message
+					result_message.setText("Asset added successfully!");
+					break;
+
+				case 1:
+					// if addAsset returns 1, display Asset exists error
+					result_message.setText("Asset " + assetName + " already exists!");
+					break;
+
+				case 2:
+					// if addAsset returns 2, display no commas error
+					result_message.setText("Commas (,) are not allowed in any field!");
+					break;
+			}
 					
 			
 		}
