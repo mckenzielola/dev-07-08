@@ -1,12 +1,14 @@
 package application.controller;
 
 import application.Asset;
+import application.Category;
 import application.controller.EditAssetController;
 import java.util.HashMap;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import application.CommonObjs;
+import application.Location;
 import data_access_layer.DataAccessLayer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +47,14 @@ public class SearchAssetController
 		delete_button.setDisable(true);
 		prev_button.setDisable(true);
 		next_button.setDisable(true);
+		
+		DAL.storeCategoriesFromFile();
+		DAL.storeLocationsFromFile();
+		DAL.storeAssetsFromFile();
+		
+		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
+		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
+		
 	}
 
 	private void loadPageData() {
@@ -145,5 +155,12 @@ public class SearchAssetController
 	{
 		// need to implement deletion of asset
 		// can use currentAsset to get asset's data
+		//save the current Asset object into currentAsset
+		currentAsset = results.get(currentAssetIndex);
+	
+		String name = currentAsset.getAssetName();
+		DAL.deleteAssetData(currentAsset);
+		result_message.setText(name + " is now deleted!");
+		
 	}
 }

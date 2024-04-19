@@ -1,11 +1,13 @@
 package data_access_layer;
 
 import java.io.*;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import application.Category;
 import application.Location;
@@ -21,6 +23,8 @@ public class DataAccessLayer {
     private HashMap<String, Location> locationsMap;
     private HashMap<String, Category> categoriesMap;
     private HashMap<String, Asset> assetsMap;
+    //create a flag to skip the first line of the csv file
+	private boolean firstline;
     
     //DAL constructor
     public DataAccessLayer()
@@ -33,6 +37,7 @@ public class DataAccessLayer {
     	locationsMap = new HashMap<>();
     	categoriesMap = new HashMap<>();
     	assetsMap = new HashMap<>();
+    	firstline = true;
     }
     
     //addLocation method adds the Location object to its respective HashMap,
@@ -335,46 +340,54 @@ public class DataAccessLayer {
     }
 
     
-    public void editAssetData(Asset asset)
+
+    public int editAssetData(Asset preAsset, Asset newAsset)
     {
-    	// initialize the string to store in file
-        String dataline = asset.getAssetName()
-        + "," + asset.getCategory() + "," + asset.getLocation() + "," + asset.getPurchDate() + "," + 
-        		asset.getDescription() + "," + asset.getPurchVal() + "," + asset.getExpDate();
-         
-    	//implement try catch block for any IOExceptions for writing or accessing assets.csv
-    	try 
+    	deleteAssetData(preAsset);
+    	int val = addAsset(newAsset);
+    	return val;
+    }
+    
+    public void deleteAssetData(Asset asset)
+    {
+    	assetsMap.remove(asset.getAssetName());
+    	storeAssetsToFile();
+    	
+    }
+    
+    // need to implement storing of assets into file from DAL after editing or deleting assets
+    public void storeAssetsToFile() 
+    {
+    	try
     	{
-        	//store all of the lines for the asset csv into list of Strings to be iterated through
-        	List<String> lines = Files.readAllLines(Paths.get(assetFilePath));
+    		//instantiate BufferWriter object and FileWriter to read the asset.csv file line by line
+        	BufferedWriter bw = new BufferedWriter(new FileWriter(assetFilePath));
         	
-        	//code for loop to iterate through the csv lines, start at line 1 because of title
-        	for(int i = 1; i < lines.size(); i++)
+        	//enhanced for loop to iterate through HashMap with removed assets
+        	for(Map.Entry<String, Asset> Emap : assetsMap.entrySet())
         	{
-        		//store the current line of asset data from the list of Strings into line
-        		String line = lines.get(i);
-        		//extract each attribute of the asset using a comma as the delimiter
-        		String[] data = line.split(",");
-        		
-        		//if the assetName from the list is equal t
-        		if(data[0] == asset.getAssetName())
+        		//flag caught, skip first line
+        		if(firstline)
         		{
-        			lines.set(i, dataline);
+        			//assign firstline to false
+        			firstline = false;
+        			continue;
         		}
+        		
+        		//write to the file with new asset values
+        		bw.write(Emap.getKey() + "," + Emap.getValue().getCategory()+ "," + Emap.getValue().getLocation()+ ","
+        				+ Emap.getValue().getPurchDate()+ "," + Emap.getValue().getDescription() + "," + Emap.getValue().getPurchVal()
+        				+ Emap.getValue().getExpDate());
+        		//go to new line
+        		bw.newLine();
+        		
         	}
-        	
-        
-    	}
-    	catch(IOException e)
-    	{
-    		e.printStackTrace();
-    	}
+        	//close file writers
+    		bw.close();
+
     }
     
-    public void storeAssetsToFile() {
-    	// need to implement storing of assets into file from DAL after editing or deleting assets
-    }
-    
+
     //returns the HashMap for the Location data
     public HashMap<String, Location> getLocationsMap() {
         return locationsMap;
