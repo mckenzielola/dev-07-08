@@ -1,6 +1,8 @@
 package data_access_layer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -332,6 +334,43 @@ public class DataAccessLayer {
         return results;
     }
 
+    
+    public void editAssetData(Asset asset)
+    {
+    	// initialize the string to store in file
+        String dataline = asset.getAssetName()
+        + "," + asset.getCategory() + "," + asset.getLocation() + "," + asset.getPurchDate() + "," + 
+        		asset.getDescription() + "," + asset.getPurchVal() + "," + asset.getExpDate();
+         
+    	//implement try catch block for any IOExceptions for writing or accessing assets.csv
+    	try 
+    	{
+        	//store all of the lines for the asset csv into list of Strings to be iterated through
+        	List<String> lines = Files.readAllLines(Paths.get(assetFilePath));
+        	
+        	//code for loop to iterate through the csv lines, start at line 1 because of title
+        	for(int i = 1; i < lines.size(); i++)
+        	{
+        		//store the current line of asset data from the list of Strings into line
+        		String line = lines.get(i);
+        		//extract each attribute of the asset using a comma as the delimiter
+        		String[] data = line.split(",");
+        		
+        		//if the assetName from the list is equal t
+        		if(data[0] == asset.getAssetName())
+        		{
+        			lines.set(i, dataline);
+        		}
+        	}
+        	
+        
+    	}
+    	catch(IOException e)
+    	{
+    		e.printStackTrace();
+    	}
+    }
+    
     public void storeAssetsToFile() {
     	// need to implement storing of assets into file from DAL after editing or deleting assets
     }
