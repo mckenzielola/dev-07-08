@@ -109,43 +109,36 @@ public class SearchAssetController
 	@FXML public void editAssetOp() 
 	{
 		//implement try block in case of file exceptions for the EditAsset FXML file
-		
-		
-		try {
-			
-			 // Load Main.fxml
+		try 
+		{
+			//save the current Asset object into currentAsset
 			currentAsset = results.get(currentAssetIndex);
-		    //FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/Main.fxml"));
-		    //AnchorPane mainPane = mainLoader.load();
-		    // Load EditAsset.fxml
-		    FXMLLoader editLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/EditAsset.fxml"));
-		    AnchorPane editPane = editLoader.load();
-
 		   
+			//get the loader for the EditAsset file to prompt the UI
+		    FXMLLoader editLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/EditAsset.fxml"));
 		    
-		  //instantiate EditAssetController object 
+		    //create AnchorPane for the EditAsset FXML file
+		    AnchorPane editPane = editLoader.load();
+		    
+		    //instantiate EditAssetController object 
 			EditAssetController editController = editLoader.getController();
-			
-			editController.saveAsset(currentAsset);
+			//save the Asset object
+			editController.saveAssetObject(currentAsset);
 
-		    // Create a parent AnchorPane to hold both views
-		    //AnchorPane combinedPane = new AnchorPane();
-		    //combinedPane.getChildren().addAll(editPane, mainPane);
-			// Create a Scene with the combined AnchorPane
-		    //Scene combinedScene = new Scene(combinedPane);
+			//instantiate a Scene object to be used to create a window for the Edit page
 			Scene editScene = new Scene(editPane);
-		    // Set the scene for your existing stage (or create a new stage)
+			
+			//instantiate Stage object to load the window and prompt the user 
 		    Stage primaryStage = new Stage();
-		    //primaryStage.setScene(combinedScene);
 		    primaryStage.setScene(editScene);
+		    
+		    //call the show function to display the editAsset window
 		    primaryStage.show();
-		} catch (IOException e) {
+		} 
+		//catch block to catch any exceptions if the file directory is not found
+		catch (IOException e) {
 		    e.printStackTrace();
 		}
-
-		
-		
-		// can use currentAsset to get asset's data
 	}
 
 	@FXML public void deleteAssetOp() 
