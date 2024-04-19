@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.EditAssetController">
+   <children>
+      <Label layoutX="20.0" layoutY="20.0" prefHeight="37.0" prefWidth="301.0" text="Edit An Asset">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Line endX="250.0" layoutX="120.0" layoutY="60.0" startX="-100.0" />
+      <TextField fx:id="asset_name" layoutX="20.0" layoutY="86.0" prefHeight="31.0" prefWidth="351.0" />
+      <Label layoutX="20.0" layoutY="61.0" prefHeight="27.0" prefWidth="200.0" text="Asset Name (Required)" />
+      <ComboBox fx:id="categoryType" layoutX="19.0" layoutY="141.0" prefHeight="25.0" prefWidth="162.0" />
+      <Label layoutX="19.0" layoutY="116.0" prefHeight="31.0" prefWidth="150.0" text="Category (Required)" />
+      <ComboBox fx:id="locationType" layoutX="19.0" layoutY="187.0" prefHeight="25.0" prefWidth="162.0" />
+      <Label layoutX="19.0" layoutY="162.0" prefHeight="31.0" prefWidth="150.0" text="Location (Required)" />
+      <DatePicker fx:id="purchase_date" layoutX="195.0" layoutY="141.0" prefHeight="25.0" prefWidth="176.0" />
+      <DatePicker fx:id="warranty_date" layoutX="195.0" layoutY="187.0" prefHeight="25.0" prefWidth="176.0" />
+      <Label layoutX="195.0" layoutY="116.0" prefHeight="31.0" prefWidth="187.0" text="Purchase Date" />
+      <Label layoutX="195.0" layoutY="162.0" prefHeight="31.0" prefWidth="187.0" text="Warranty Date" />
+      <TextArea fx:id="asset_descr" layoutX="19.0" layoutY="235.0" prefHeight="55.0" prefWidth="351.0" />
+      <Label layoutX="19.0" layoutY="210.0" prefHeight="27.0" prefWidth="200.0" text="Asset Description" />
+      <Label layoutX="19.0" layoutY="287.0" prefHeight="31.0" prefWidth="162.0" text="Purchased Value" />
+      <Label fx:id="result_message" layoutX="19.0" layoutY="338.0" prefHeight="31.0" prefWidth="351.0" />
+      <Button layoutX="150.0" layoutY="366.0" mnemonicParsing="false" onAction="#saveAssetOp" prefHeight="10.0" prefWidth="100.0" style="-fx-background-color: teal;" text="Save" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="cost" layoutX="18.0" layoutY="312.0" prefHeight="31.0" prefWidth="351.0" />
+   </children>
+</AnchorPane>

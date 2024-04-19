@@ -1,14 +1,21 @@
 package application.controller;
 
 import application.Asset;
-
+import application.controller.EditAssetController;
 import java.util.HashMap;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import application.CommonObjs;
 import data_access_layer.DataAccessLayer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Label;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -101,7 +108,43 @@ public class SearchAssetController
 
 	@FXML public void editAssetOp() 
 	{
-		// need to implement deletion of asset
+		//implement try block in case of file exceptions for the EditAsset FXML file
+		
+		
+		try {
+			
+			 // Load Main.fxml
+			currentAsset = results.get(currentAssetIndex);
+		    //FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/Main.fxml"));
+		    //AnchorPane mainPane = mainLoader.load();
+		    // Load EditAsset.fxml
+		    FXMLLoader editLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/EditAsset.fxml"));
+		    AnchorPane editPane = editLoader.load();
+
+		   
+		    
+		  //instantiate EditAssetController object 
+			EditAssetController editController = editLoader.getController();
+			
+			editController.saveAsset(currentAsset);
+
+		    // Create a parent AnchorPane to hold both views
+		    //AnchorPane combinedPane = new AnchorPane();
+		    //combinedPane.getChildren().addAll(editPane, mainPane);
+			// Create a Scene with the combined AnchorPane
+		    //Scene combinedScene = new Scene(combinedPane);
+			Scene editScene = new Scene(editPane);
+		    // Set the scene for your existing stage (or create a new stage)
+		    Stage primaryStage = new Stage();
+		    //primaryStage.setScene(combinedScene);
+		    primaryStage.setScene(editScene);
+		    primaryStage.show();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+
+		
+		
 		// can use currentAsset to get asset's data
 	}
 
