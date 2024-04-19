@@ -349,11 +349,14 @@ public class DataAccessLayer {
     }
     
     public void deleteAssetData(Asset asset)
+
     {
     	assetsMap.remove(asset.getAssetName());
     	storeAssetsToFile();
     	
     }
+    
+    
     
     // need to implement storing of assets into file from DAL after editing or deleting assets
     public void storeAssetsToFile() 
@@ -382,8 +385,15 @@ public class DataAccessLayer {
         		bw.newLine();
         		
         	}
+
+        	
         	//close file writers
     		bw.close();
+    	}catch(IOException e)
+    	{
+    		e.printStackTrace();
+    	}
+    
 
     }
     
