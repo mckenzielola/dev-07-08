@@ -2,8 +2,9 @@ package application;
 
 public class Location
 {
-private String locationName;
-private String description;
+	//initialize class members
+	private String locationName;
+	private String description;
 	
 	//constructor 
 	public Location(String name, String descr)

@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.SearchAssetController">
+<AnchorPane fx:id="searchContainer" visible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.SearchAssetController">
    <children>
 	   <Label layoutX="20.0" layoutY="20.0" prefHeight="37.0" prefWidth="301.0" text="Search For An Asset">
 	      <font>
@@ -53,6 +53,7 @@
             <Font size="13.0" />
          </font>
       </Button>
+      
       <Button fx:id="delete_button" layoutX="203.0" layoutY="302.0" mnemonicParsing="false" onAction="#deleteAssetOp" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE">
          <font>
             <Font size="13.0" />
@@ -61,5 +62,6 @@
       <Label fx:id="asset_name" layoutX="86.0" layoutY="217.0" prefHeight="27.0" prefWidth="284.0" />
       <Label fx:id="asset_category" layoutX="86.0" layoutY="244.0" prefHeight="27.0" prefWidth="284.0" />
       <Label fx:id="asset_location" layoutX="86.0" layoutY="271.0" prefHeight="27.0" prefWidth="284.0" />
+      <fx:include source="EditAsset.fxml"/>
    </children>      
 </AnchorPane>

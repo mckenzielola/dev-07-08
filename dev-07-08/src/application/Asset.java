@@ -2,11 +2,13 @@ package application;
 
 public class Asset 
 {
+	//initialize class members
 	private String assetName;
 	private String category, location;
 	private String purchaseDate, description;
 	private String purchaseVal, warrantyDate;
 	
+	//default constructor, assign class members with default values
 	public Asset(String name, String cat, String loc, String purDate, String descr, String cost, String expDate)
 	{
 		this.assetName = name;
@@ -18,6 +20,7 @@ public class Asset
 		this.warrantyDate = expDate;
 	}
 	
+	//create mutators and accessors for all class members
 	public String getAssetName()
 	{
 		return this.assetName;

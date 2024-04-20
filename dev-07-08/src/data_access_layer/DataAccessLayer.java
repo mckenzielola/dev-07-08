@@ -169,17 +169,23 @@ public class DataAccessLayer {
                 }
                 else
                 {
+                	//Store the category name into an array of Strings
                 	String[] data = line.split(",");
                 
+                	//if there is at least one attribute, then csv is stored properly. continue reading from file
                 	if (data.length > 0)
                 	{
+                		//store category name from the array of Strings
                 		String categoryName = data[0].trim();
+                		//store category name and Category object into Hashmap
                 		tempMap.put(categoryName, new Category(categoryName));
                 	}
                 }
             }
+            //close filereaders
             br.close();
         } 
+        //catch block to catch any IOExceptions
         catch (IOException e) 
         {
             e.printStackTrace();
@@ -220,21 +226,28 @@ public class DataAccessLayer {
                 }
                 else
                 {
+                	//initialize array of Strings that stores each Location attribute into the array
                 	String[] data = line.split(",");
                 
+                	//check if csv file is saving data properly, should be two elements in array
                 	if (data.length >= 2)
                 	{
+                		//Store Location attributes from the String array
                 		String locationName = data[0];
                 		String locDescr = data[1];
+                		//if the location is empty, store location description as empty string
                         if (locDescr.equals("_EMPTY_")) {
                             locDescr = "";
                         }
+                        //store Location attributes into the HashMap of Locations
                 		tempMap.put(locationName, new Location(locationName, locDescr));
                 	}
                 }
             }
+            //close filereaders, no more lines to read
             br.close();
         }
+        //implement catch block to handle any IoExceptions
         catch (IOException e) 
         {
             e.printStackTrace();
@@ -309,11 +322,13 @@ public class DataAccessLayer {
                 }
                 else
                 {
-                	//System.out.println(line);
+                	//store all Asset attributes into String array
                 	String[] data = line.split(",");
                
+                	//if the array has 7 items, csv is handling Asset data correctly
                 	if (data.length >= 7) 
                 	{
+                		//check if there are any attributes that are tagged empty, save as empty string
                         for (String item : data) 
                         {
                             if (item.equals("_EMPTY_")) {
@@ -321,54 +336,65 @@ public class DataAccessLayer {
                             }
                             
                         }
-                      
+                        //store Asset attributes from array into the HashMap
                 		tempMap.put(data[0], new Asset(data[0], data[1], data[2], data[3], data[4], data[5], data[6]));
                 	}
                 }
             }
+            //clode filereaders, no more lines to read from
             br.close();
           //store populated hashmap into class location hashmap
-            assetsMap = tempMap; 
-            
+            assetsMap = tempMap;   
         }
         catch (IOException e) 
         {
             e.printStackTrace();
         }
 
-        
-
     }
     
+    //Checks to see if a particular searched string is a substring of an Asset Name,
+    //returns an ArrayList of Assets that contain the following keyword
     public ArrayList<Asset> searchAsset(String keyword) {
+    	//initialize an empty ArrayList to save all Assets that contain the keyword
         ArrayList<Asset> results = new ArrayList<>();
+        //iterate through the assets HashMap by using the asset name
         for (String key : assetsMap.keySet()) {
+        	//if the user's strings matches a substring in assetname, add Asset to ArrayList
             if (key.toLowerCase().contains(keyword)) {
                 results.add(assetsMap.get(key));
             }
         }
+        //return the ArrayList of all Assets that have the same keyword that was searched for
         return results;
     }
 
     
 
+    //Takes the original Asset that is being overwritten and the new Asset that will overwrite
+    //the original, calls delete to remove Asset from HashMap, returns value to determine
+    //result_message
     public int editAssetData(Asset preAsset, Asset newAsset)
     {
+    	//call deleteAssetData to remove the original Asset that is being edited
     	deleteAssetData(preAsset);
+    	//add the newly edited Asset to the Asset HashMap and into the Asset Csv file
     	int val = addAsset(newAsset);
+    	//return integer value to determine result message to be prompted to user
     	return val;
     }
     
+    //removes the Asset that is either being deleted or edited from the hashmap,
+    //calls storeAssetsToFile to rewrite csv file without the removed Asset
     public void deleteAssetData(Asset asset)
-
     {
+    	//remove the Asset that is being deleted/edited from the Asset Hashmap
     	assetsMap.remove(asset.getAssetName());
+    	//call storeAssetsToFile to rewrite csv file without removed Asset
     	storeAssetsToFile();
-    	
     }
     
-    
-    
+ 
     // need to implement storing of assets into file from DAL after editing or deleting assets
     public void storeAssetsToFile() 
     {
@@ -400,18 +426,15 @@ public class DataAccessLayer {
         				+ Emap.getValue().getPurchDate()+ "," + Emap.getValue().getDescription() + "," + Emap.getValue().getPurchVal() 
         				+ "," + Emap.getValue().getExpDate());
         		//go to new line
-        		bw.newLine();
-        		
+        		bw.newLine();	
         	}
-
-        	
         	//close file writers
     		bw.close();
-    	}catch(IOException e)
+    	}
+    	catch(IOException e)
     	{
     		e.printStackTrace();
     	}
-
     }
     
 

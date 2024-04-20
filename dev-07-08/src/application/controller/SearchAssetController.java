@@ -35,6 +35,7 @@ public class SearchAssetController
 	@FXML private Button prev_button;
 	@FXML private Label result_number;
 	@FXML private Button next_button;
+	@FXML private AnchorPane searchContainer;
 
 	private DataAccessLayer DAL = new DataAccessLayer();
 	private ArrayList<Asset> results;
@@ -44,26 +45,30 @@ public class SearchAssetController
 
 	public void initialize() {
 		
+		//populate Asset Hashmap with existing assets in csv file
 		DAL.storeAssetsFromFile();
 
+		//disable buttons until search button is pressed
 		edit_button.setDisable(true);
 		delete_button.setDisable(true);
 		prev_button.setDisable(true);
 		next_button.setDisable(true);
 		
+		//populate Category and Location hashmaps with previous data
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
 		
-		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
-		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
-		
 	}
 
+	//changes the visibility of buttons, shows the results of the keyword search
 	private void loadPageData() {
+		//Retrieve the currentAsset
 		currentAsset = results.get(currentAssetIndex);
+		//show the results of the Asset's attributes after searching
 		asset_name.setText(currentAsset.getAssetName());
 		asset_category.setText(currentAsset.getCategory());
 		asset_location.setText(currentAsset.getLocation());
+		//display the number of assets that match the searched keyword
 		result_number.setText(Integer.toString(currentAssetIndex + 1));
 
 		if (currentAssetIndex == 0)
@@ -85,22 +90,31 @@ public class SearchAssetController
 		}
 	}
 
+	//when search button is pressed
 	@FXML public void searchAssetOp() 
 	{	
+		//retrieve ArrayList of all Assets that contain the searched keyword
 		results = DAL.searchAsset(search_term.getText().toLowerCase());
+		//display the number of Asset results
 		resultsCount = results.size();
+		//if the search text field does not contain any keywords, prompt message
 		if (search_term.getText().length() == 0)
 		{
 			result_message.setText("Please type in a keyword.");
 		}
+		//if no Assets are found, display message
 		else if (resultsCount == 0)
 		{
 			result_message.setText("No results found!");
 		}
+		//else if here, Asset found
 		else {
+			//display found message
 			result_message.setText(resultsCount + " results found!");
 			currentAssetIndex = 0;
+			//display buttons and found Assets by calling loadPageData 
 			loadPageData();
+			//disable buttons
 			edit_button.setDisable(false);
 			delete_button.setDisable(false);
 		}
@@ -118,6 +132,7 @@ public class SearchAssetController
 		loadPageData();
 	}
 
+	//triggered when user presses edit button after Asset is found
 	@FXML public void editAssetOp() 
 	{
 		//implement try block in case of file exceptions for the EditAsset FXML file
@@ -132,20 +147,21 @@ public class SearchAssetController
 		    //create AnchorPane for the EditAsset FXML file
 		    AnchorPane editPane = editLoader.load();
 		    
-		    //instantiate EditAssetController object 
-			EditAssetController editController = editLoader.getController();
-			//save the Asset object
-			editController.saveAssetObject(currentAsset);
-
-			//instantiate a Scene object to be used to create a window for the Edit page
+		    //instantiate a Scene object to be used to create a window for the Edit page
 			Scene editScene = new Scene(editPane);
 			
-			//instantiate Stage object to load the window and prompt the user 
-		    Stage primaryStage = new Stage();
-		    primaryStage.setScene(editScene);
-		    
-		    //call the show function to display the editAsset window
-		    primaryStage.show();
+		    //instantiate EditAssetController object 
+			EditAssetController editController = editLoader.getController();
+			
+			//store the Asset to be edited into the EditAssetController class, and show all existing data of Asset 
+			editController.storeAssetToEdit(currentAsset);
+		
+			//set the AnchorPane of the SearchAsset.fxml to display the EditAsset.fxml AnchorPane
+			searchContainer.getChildren().setAll(editPane);
+			
+			//change the visibility of the EditAsset.fxml to be visible/true
+			editController.displayEditContainer();		
+
 		} 
 		//catch block to catch any exceptions if the file directory is not found
 		catch (IOException e) {
@@ -159,8 +175,12 @@ public class SearchAssetController
 		//save the current Asset object into currentAsset
 		currentAsset = results.get(currentAssetIndex);
 	
+		//save the olde name of the asset to be displayed later in the result_message
 		String name = currentAsset.getAssetName();
+		
+		//call the deleteAssetData to remove the asset from hashmap and csv file
 		DAL.deleteAssetData(currentAsset);
+		//prompt delete message
 		result_message.setText(name + " is now deleted!");
 		
 	}

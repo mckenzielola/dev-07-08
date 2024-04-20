@@ -14,6 +14,7 @@ import data_access_layer.DataAccessLayer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -29,6 +30,9 @@ public class EditAssetController
 	@FXML private DatePicker warranty_date;
 	@FXML private TextArea asset_descr;
 	@FXML private Label result_message;
+	
+	//initialize id for the EditAsset.fxml's AnchorPane //use for visibility
+	@FXML private AnchorPane editContainer;
 	private DataAccessLayer DAL = new DataAccessLayer();
 	//create pre-existing Asset
 	private Asset preAsset;
@@ -37,30 +41,39 @@ public class EditAssetController
 	
 	public void initialize()
 	{
+		//populate hashmaps with existing data from csv files
 		DAL.storeAssetsFromFile();
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
 		
-		
+		//store Category and Location hashmaps into their own variables
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
 
-		
+		//initialize Lists and store the hashmaps into them to be used for comboboxes
 		List<String> categoryNames = new ArrayList<>(categoriesMap.keySet());
 		List<String> locationNames = new ArrayList<>(locationsMap.keySet());
 		
+		//populate comboboxes with Categories and Locations
 		categoryType.getItems().addAll(categoryNames);
 		locationType.getItems().addAll(locationNames);
-		
-		
-		
+	
 	}
 	
-
-	public void saveAssetObject(Asset asset)
+	
+	//changes the visibility of EditAsset.fxml's AnchorPane
+	public void displayEditContainer()
 	{
-		//initialize pre-existing Asset
+		//set the visibility of the EditAsset.fxml's AnchorPane to be visible
+		editContainer.setVisible(!editContainer.isVisible());
+		
+    } 
+	
+	void storeAssetToEdit(Asset asset)
+	{
+		//initialize and store pre-existing Asset that will be edited
 		preAsset = asset;
+		
 		//Prompt all established Asset values 
 		categoryType.setPromptText(asset.getCategory());
 		locationType.setPromptText(asset.getLocation());
@@ -74,14 +87,6 @@ public class EditAssetController
 	
 	@FXML public void saveAssetOp()
 	{
-
-		HashMap<String, Asset> assetsMap = DAL.getAssetsMap();
-		
-		for(Map.Entry<String, Asset> Emap : assetsMap.entrySet())
-		{
-			System.out.print(Emap.getKey() + " ");
-		}
-
 		//get text 
 		String assetName = asset_name.getText();
 		String category = "_EMPTY_";
@@ -153,7 +158,7 @@ public class EditAssetController
 			{
 				case 0:
 					// if addAsset returns 0, display success message
-					result_message.setText("Asset added successfully!");
+					result_message.setText("Asset edited and added successfully!");
 					break;
 
 				case 1:
