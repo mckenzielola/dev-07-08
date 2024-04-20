@@ -1,6 +1,8 @@
 package application;
 
 public class Category {
+	
+	//initialize class member
 	private String categoryName;
 	
 	//constructor 

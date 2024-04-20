@@ -33,19 +33,24 @@ public class CreateAssetController {
 	
 	public void initialize()
 	{
+		//store HashMaps with existing data from csv files
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
 		DAL.storeAssetsFromFile();
 		
+		//initialize Hashmaps for Categories and Locations
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
 		
+		//set the HashMaps as Lists to populate the combobox
 		List<String> categoryNames = new ArrayList<>(categoriesMap.keySet());
 		List<String> locationNames = new ArrayList<>(locationsMap.keySet());
 		
+		//prompt Categories and Locations combobox with message
 		categoryType.setPromptText("Select a Category...");
 		locationType.setPromptText("Select a Location..");
 		
+		//populate Categories and Locations combobox with existing data
 		categoryType.getItems().addAll(categoryNames);
 		locationType.getItems().addAll(locationNames);
 	}
