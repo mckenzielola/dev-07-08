@@ -58,6 +58,9 @@ public class SearchAssetController
 		DAL.storeCategoriesFromFile();
 		DAL.storeLocationsFromFile();
 		
+		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
+		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
+		
 	}
 
 	//changes the visibility of buttons, shows the results of the keyword search

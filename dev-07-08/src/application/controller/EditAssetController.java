@@ -50,6 +50,7 @@ public class EditAssetController
 		HashMap<String, Category> categoriesMap = DAL.getCategoriesMap();
 		HashMap<String, Location> locationsMap = DAL.getLocationsMap();
 
+
 		//initialize Lists and store the hashmaps into them to be used for comboboxes
 		List<String> categoryNames = new ArrayList<>(categoriesMap.keySet());
 		List<String> locationNames = new ArrayList<>(locationsMap.keySet());

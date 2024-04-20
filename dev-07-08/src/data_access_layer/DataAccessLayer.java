@@ -322,13 +322,14 @@ public class DataAccessLayer {
                 }
                 else
                 {
+
                 	//store all Asset attributes into String array
                 	String[] data = line.split(",");
                
                 	//if the array has 7 items, csv is handling Asset data correctly
                 	if (data.length >= 7) 
                 	{
-                		//check if there are any attributes that are tagged empty, save as empty string
+                		    //check if there are any attributes that are tagged empty, save as empty string
                         for (String item : data) 
                         {
                             if (item.equals("_EMPTY_")) {
@@ -336,7 +337,8 @@ public class DataAccessLayer {
                             }
                             
                         }
-                        //store Asset attributes from array into the HashMap
+
+                    //store Asset attributes from array into the HashMap
                 		tempMap.put(data[0], new Asset(data[0], data[1], data[2], data[3], data[4], data[5], data[6]));
                 	}
                 }
@@ -350,7 +352,6 @@ public class DataAccessLayer {
         {
             e.printStackTrace();
         }
-
     }
     
     //Checks to see if a particular searched string is a substring of an Asset Name,
@@ -435,6 +436,7 @@ public class DataAccessLayer {
     	{
     		e.printStackTrace();
     	}
+
     }
     
 
