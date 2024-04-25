@@ -66,8 +66,7 @@ public class EditAssetController
 	public void displayEditContainer()
 	{
 		//set the visibility of the EditAsset.fxml's AnchorPane to be visible
-		editContainer.setVisible(!editContainer.isVisible());
-		
+		editContainer.setVisible(!editContainer.isVisible());	
     } 
 	
 	void storeAssetToEdit(Asset asset)

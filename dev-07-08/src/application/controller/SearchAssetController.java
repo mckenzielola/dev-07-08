@@ -47,7 +47,6 @@ public class SearchAssetController
 		
 		//populate Asset Hashmap with existing assets in csv file
 		DAL.storeAssetsFromFile();
-
 		//disable buttons until search button is pressed and text by calling displayNoResults
 		displayNoResults();
 		
