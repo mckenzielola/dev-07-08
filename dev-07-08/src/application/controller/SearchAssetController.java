@@ -47,12 +47,8 @@ public class SearchAssetController
 		
 		//populate Asset Hashmap with existing assets in csv file
 		DAL.storeAssetsFromFile();
-
-		//disable buttons until search button is pressed
-		edit_button.setDisable(true);
-		delete_button.setDisable(true);
-		prev_button.setDisable(true);
-		next_button.setDisable(true);
+		//disable buttons until search button is pressed and text by calling displayNoResults
+		displayNoResults();
 		
 		//populate Category and Location hashmaps with previous data
 		DAL.storeCategoriesFromFile();
@@ -92,6 +88,22 @@ public class SearchAssetController
 			next_button.setDisable(false);
 		}
 	}
+	
+	//reset the Results section of the Search/Manage asset Page for assets not found and first opening page
+	private void displayNoResults()
+	{
+		//show the results of the Asset's attributes as blank after no results found
+		asset_name.setText("");
+		asset_category.setText("");
+		asset_location.setText("");
+		//disable buttons
+		edit_button.setDisable(true);
+		delete_button.setDisable(true);
+		prev_button.setDisable(true);
+		next_button.setDisable(true);
+		
+		
+	}
 
 	//when search button is pressed
 	@FXML public void searchAssetOp() 
@@ -109,6 +121,7 @@ public class SearchAssetController
 		else if (resultsCount == 0)
 		{
 			result_message.setText("No results found!");
+			displayNoResults();
 		}
 		//else if here, Asset found
 		else {
@@ -175,6 +188,9 @@ public class SearchAssetController
 	//triggered when user presses delete
 	@FXML public void deleteAssetOp() 
 	{
+		//reload the page 
+		loadPageData();
+		
 		//save the current Asset object into currentAsset
 		currentAsset = results.get(currentAssetIndex);
 	
