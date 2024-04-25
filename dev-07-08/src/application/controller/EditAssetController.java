@@ -88,15 +88,20 @@ public class EditAssetController
 	
 	@FXML public void saveAssetOp()
 	{
-		//get text 
-		String assetName = asset_name.getText();
-		String category = "_EMPTY_";
-		String location = "_EMPTY_";
-		String purchdate = "_EMPTY_";
-		String descr = "_EMPTY_";
-		String purchval = "_EMPTY_";
-		String expdate = "_EMPTY_";
+		//get text from the original Asset, use this data if user does not edit attributes
+		String assetName = preAsset.getAssetName();
+		String category = preAsset.getCategory();
+		String location = preAsset.getLocation();
+		String purchdate = preAsset.getPurchDate();
+		String descr = preAsset.getDescription();
+		String purchval = preAsset.getPurchVal();
+		String expdate = preAsset.getExpDate();
 
+		//if user filled out the asset name
+		if(!asset_name.getText().equals(""))
+		{
+			assetName = asset_name.getText();
+		}
 		// if user filled out category
 		if (categoryType.getValue() != null) {
 			// set category to the value of the category
@@ -127,24 +132,7 @@ public class EditAssetController
 			// set warranty date to the value of the warranty date
 			expdate = warranty_date.getValue().toString();
 		}
-		//check if the asset name field is left blank
-		if (assetName.length() == 0)
-		{
-			//display error message for blank category name
-			result_message.setText("Asset name can not be blank!");
-		}
-		//check if the category name field is left blank
-		else if (category.equals("_EMPTY_"))
-		{
-			//display error message for blank category name
-			result_message.setText("Category can not be blank!");
-		}
-		//check if the location name field is left blank
-		else if (location.equals("_EMPTY_"))
-		{
-			//display error message for blank location name
-			result_message.setText("Location can not be blank!");
-		}
+		
 		else
 		{
 			//create asset object and store name
