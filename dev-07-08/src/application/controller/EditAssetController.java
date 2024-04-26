@@ -124,13 +124,6 @@ public class EditAssetController
 		String purchval = preAsset.getPurchVal();
 		String expdate = preAsset.getExpDate();
 		
-		System.out.println(assetName);
-		System.out.println(category);
-		System.out.println(location);
-		System.out.println(purchdate);
-		System.out.println(descr);
-		System.out.println(purchval);
-		System.out.println(expdate);
 
 		//if user filled out the asset name
 		if(!asset_name.getText().equals(""))

@@ -156,17 +156,18 @@ public class SearchAssetController
 	//triggered when user presses edit button after Asset is found
 	@FXML public void editAssetOp() 
 	{
-		mainController.showEditAssetOp();
 		// go to edit asset page
-
-		FXMLLoader editLoader = mainController.getCurrentLoader();
-		// get the loader for the EditAsset file to prompt the UI
-
-		EditAssetController editController = editLoader.getController();
-		// get the EditAssetController object from mainController
+		mainController.showEditAssetOp();
 		
-		editController.storeAssetToEdit(currentAsset);
+		// get the loader for the EditAsset file to prompt the UI
+		FXMLLoader editLoader = mainController.getCurrentLoader();
+		
+		// get the EditAssetController object from mainController
+		EditAssetController editController = editLoader.getController();
+		
 		// store the Asset to be edited into the EditAssetController class, and show all existing data of Asset
+		editController.storeAssetToEdit(currentAsset);
+		
 
 //		//implement try block in case of file exceptions for the EditAsset FXML file
 //		try 
