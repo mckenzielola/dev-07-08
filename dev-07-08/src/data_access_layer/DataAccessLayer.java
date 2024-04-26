@@ -381,6 +381,10 @@ public class DataAccessLayer {
     	deleteAssetData(preAsset);
     	//add the newly edited Asset to the Asset HashMap and into the Asset Csv file
     	int val = addAsset(newAsset);
+    	
+    	if (val != 0) {
+    		int temp = addAsset(preAsset);
+    	}
     	//return integer value to determine result message to be prompted to user
     	return val;
     }
