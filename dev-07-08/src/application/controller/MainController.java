@@ -10,7 +10,13 @@ import javafx.scene.layout.HBox;
 
 public class MainController {
 
-	@FXML HBox mainBox;
+	@FXML public HBox mainBox;
+	
+	private FXMLLoader currentLoader;
+	
+	public FXMLLoader getCurrentLoader() {
+		return currentLoader;
+	}
 	
 	@FXML
 	public void initialize() {
@@ -89,10 +95,28 @@ public class MainController {
 	}
 
 	@FXML public void showManageAssetOp() {
-		URL url = getClass().getClassLoader().getResource("view/SearchAsset.fxml");
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/SearchAsset.fxml"));
+		currentLoader = loader;
 		
 		try {
-			AnchorPane pane2 = (AnchorPane) FXMLLoader.load(url);
+			AnchorPane pane2 = (AnchorPane) loader.load();
+			
+			if(mainBox.getChildren().size() > 1)
+				mainBox.getChildren().remove(1);
+			
+			mainBox.getChildren().add(pane2);
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void showEditAssetOp() {
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/EditAsset.fxml"));
+		currentLoader = loader;
+		try {
+			AnchorPane pane2 = (AnchorPane) loader.load();
 			
 			if(mainBox.getChildren().size() > 1)
 				mainBox.getChildren().remove(1);

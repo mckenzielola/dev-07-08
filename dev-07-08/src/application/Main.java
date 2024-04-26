@@ -12,7 +12,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			HBox mainBox = (HBox)FXMLLoader.load(getClass().getClassLoader().getResource("view/Main.fxml"));
+			FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/Main.fxml"));
+			HBox mainBox = (HBox)mainLoader.load();
 			Scene scene = new Scene(mainBox);
 			scene.getStylesheets().add(getClass().getClassLoader().getResource("css/application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -21,6 +22,7 @@ public class Main extends Application {
 			//Keep reference of mainBox inside the commonObjs object
 			CommonObjs commonObjs = CommonObjs.getInstance();
 			commonObjs.setMainBox(mainBox);
+			commonObjs.setMainController(mainLoader.getController());
 			
 			//Make window non-resizable
 			primaryStage.setResizable(false);

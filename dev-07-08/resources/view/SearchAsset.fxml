@@ -62,6 +62,6 @@
       <Label fx:id="asset_name" layoutX="86.0" layoutY="217.0" prefHeight="27.0" prefWidth="284.0" />
       <Label fx:id="asset_category" layoutX="86.0" layoutY="244.0" prefHeight="27.0" prefWidth="284.0" />
       <Label fx:id="asset_location" layoutX="86.0" layoutY="271.0" prefHeight="27.0" prefWidth="284.0" />
-      <fx:include source="EditAsset.fxml"/>
+<!--       <fx:include source="EditAsset.fxml"/> -->
    </children>      
 </AnchorPane>
